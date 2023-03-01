@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
@@ -17,16 +18,20 @@ class MainActivity : AppCompatActivity() {
 
         // cannot construct viewModel object as other objects
         // we have to need provider to construct the object
-//        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         val textView = findViewById<TextView>(R.id.tvCount)
         val button = findViewById<Button>(R.id.btnCount)
 
-        // textView.text = count.toString()
+//        textView.text = count.toString()
 //        textView.text = viewModel.count.toString()
 
+        viewModel.count.observe(this, Observer {
+            textView.text = it.toString()
+        })
+
         button.setOnClickListener {
-//            viewModel.updateCount()
+            viewModel.updateCount()
 //            textView.text = viewModel.count.toString()
         }
 
