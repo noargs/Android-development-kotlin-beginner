@@ -5,6 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+// Simple use of coroutine | Coroutines Demo 1
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,13 +28,21 @@ class MainActivity : AppCompatActivity() {
             textView.text = count++.toString()
         }
         downloadButton.setOnClickListener {
-            downloadUserData()
+            CoroutineScope(Dispatchers.IO).launch {
+                downloadUserData()
+            }
         }
     }
 }
 
-private fun downloadUserData() {
-    for (i in 1..200000) {
+private suspend fun downloadUserData() {
+    for (i in 1..100000) {
         Log.i("MyTag", "Downloading user $i in ${Thread.currentThread().name}")
+
+        // to prevent logcat: Unexpected EOF error causes by logcat unable to
+        // catch up with all the log messages generating in high speed by a device
+        // OR device shutdown OR logd crashes
+        // you have to use `suspend` keyword with downloadUserData() function
+        delay(100)
     }
 }
