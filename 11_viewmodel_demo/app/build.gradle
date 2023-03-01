@@ -49,6 +49,7 @@ dependencies {
     // viewmodel, livedata
     def arch_version = '2.2.0-alpha04'
     implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
