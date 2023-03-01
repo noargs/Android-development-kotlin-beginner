@@ -7,7 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRecyclerViewAdapter(val fruitsList: List<Fruit>) : RecyclerView.Adapter<MyViewHodler>() {
+class MyRecyclerViewAdapter(
+    private val fruitsList: List<Fruit>,
+    private val clickListener:(Fruit) -> Unit
+) : RecyclerView.Adapter<MyViewHodler>() {
 
 
 
@@ -20,7 +23,7 @@ class MyRecyclerViewAdapter(val fruitsList: List<Fruit>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: MyViewHodler, position: Int) {
         val fruit = fruitsList[position]
 //        holder.myTextView.text = fruit.name
-        holder.bind(fruit)
+        holder.bind(fruit, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -31,16 +34,12 @@ class MyRecyclerViewAdapter(val fruitsList: List<Fruit>) : RecyclerView.Adapter<
 
 class MyViewHodler(val view: View) : RecyclerView.ViewHolder(view) {
 //    val myTextView = view.findViewById<TextView>(R.id.tvName)
-    fun bind(fruit: Fruit){
+    fun bind(fruit: Fruit, clickListener: (Fruit) -> Unit){
         val myTextView = view.findViewById<TextView>(R.id.tvName)
         myTextView.text = fruit.name
 
         view.setOnClickListener {
-            Toast.makeText(
-                view.context,
-                "Selected Fruit is : ${fruit.name}",
-                Toast.LENGTH_LONG
-            ).show()
+            clickListener(fruit)
         }
     }
 
